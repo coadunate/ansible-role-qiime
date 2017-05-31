@@ -2,12 +2,16 @@
 # tasks file for qiime-ansible
 - name: Make sure python-qt4 is present
   yum: 
-    name: python-qt4 
+    name: python-qt4
+    become: true
+    become_user: root 
     state: present
 
 - name: Make sure burrito is present
   pip:
     name: burrito
+    become: true
+   become_user: root
     state: present
 
 - name: Remove existing environment  
