@@ -11,7 +11,7 @@
   pip:
     name: burrito
     become: true
-   become_user: root
+    become_user: root
     state: present
 
 - name: Remove existing environment  
