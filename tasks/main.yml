@@ -8,6 +8,11 @@
 - name: Make sure burrito is present
   pip:
     name: burrito
+<<<<<<< HEAD
+=======
+    become: true
+    become_user: root
+>>>>>>> fff6d970fc0bb07bd6ac4f18a34cefcaf16a614f
     state: present
 
 - name: Remove existing environment  
