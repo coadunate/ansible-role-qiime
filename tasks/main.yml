@@ -3,15 +3,11 @@
 - name: Make sure python-qt4 is present
   yum: 
     name: python-qt4
-    become: true
-    become_user: root 
     state: present
 
 - name: Make sure burrito is present
   pip:
     name: burrito
-    become: true
-   become_user: root
     state: present
 
 - name: Remove existing environment  
@@ -27,5 +23,5 @@
 - name: Test QIIME installation
   shell: "{{ env_home }}/qiime1/bin/print_qiime_config.py -t"
 
-- name: Exit virtual environment
-  shell: "source {{ miniconda_home }}/deactivate"
+#- name: Exit virtual environment
+#  shell: "source {{ miniconda_home }}/deactivate"
