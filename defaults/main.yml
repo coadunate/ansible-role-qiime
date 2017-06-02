@@ -2,6 +2,6 @@
 # Main Configuration
 # ------------------
 
-miniconda_home: '~/miniconda/bin'
+miniconda_home: '{{ ansible_env.HOME }}/miniconda/bin'
 
-env_home: '~/miniconda/envs'
+env_home: '{{ ansible_env.HOME }}/miniconda/envs'
