@@ -17,6 +17,6 @@ galaxy_info:
 
 dependencies:
   - coadunate.devtools
-  - coadunate.python
+  - coadunate.minipython
   - coadunate.miniconda
 
