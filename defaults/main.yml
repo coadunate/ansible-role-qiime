@@ -5,3 +5,5 @@
 miniconda_home: 'miniconda/bin'
 
 env_home: 'miniconda/envs'
+
+env_var: "{{ ansible_env.PWD }}"
