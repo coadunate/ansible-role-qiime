@@ -1,8 +1,5 @@
 ---
 # tasks file for qiime-ansible
-- name: Set HOME variable
-  set_fact:
-    env_var: "{{ ansible_env.PWD }}"
 
 - name: Make sure python-qt4 is present
   yum: 
@@ -15,17 +12,17 @@
     state: present
 
 - name: Remove existing environment  
-  command: "{{ env_var }}/{{ miniconda_home }}/conda remove --name qiime1 --all"
+  command: "{{ ansible_env.PWD }}/{{ miniconda_home }}/conda remove --name qiime1 --all"
   ignore_errors: yes
 
 - name: Create QIIME environment and install QIIME
-  command: "{{ env_var }}/{{ miniconda_home }}/conda create -n qiime1 python=2.7 qiime matplotlib=1.4.3 mock nose -c bioconda "
+  command: "{{ ansible_env.PWD }}/{{ miniconda_home }}/conda create -n qiime1 python=2.7 qiime matplotlib=1.4.3 mock nose -c bioconda "
 
 - name: Activate QIIME environment
-  shell: "source {{ env_var }}/{{ miniconda_home }}/activate qiime1"
+  shell: "source {{ ansible_env.PWD }}/{{ miniconda_home }}/activate qiime1"
 
 - name: Test QIIME installation
-  shell: "{{ env_var }}/{{ env_home }}/qiime1/bin/print_qiime_config.py -t"
+  shell: "{{ ansible_env.PWD }}/{{ env_home }}/qiime1/bin/print_qiime_config.py -t"
 
 #- name: Exit virtual environment
-#  shell: "source {{ env_var }}/{{ miniconda_home }}/deactivate"
+#  shell: "source {{ ansible_env.PWD }}/{{ miniconda_home }}/deactivate"
