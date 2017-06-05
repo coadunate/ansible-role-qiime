@@ -1,6 +1,6 @@
 ---
 - set_fact:
-    env_var = "{{ lookup('env', 'HOME') }}"
+    env_var: "{{ lookup('ansible_env', 'HOME') }}"
 
 # tasks file for qiime-ansible
 - name: Make sure python-qt4 is present
