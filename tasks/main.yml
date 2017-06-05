@@ -2,7 +2,7 @@
 # tasks file for qiime-ansible
 - name: Set HOME variable
   set_fact:
-    env_var: "{{ ansible_env.PWD }}
+    env_var: "{{ ansible_env.PWD }}"
 
 - name: Make sure python-qt4 is present
   yum: 
