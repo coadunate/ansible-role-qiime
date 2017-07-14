@@ -1,28 +1,63 @@
 ---
-# tasks file for qiime-ansible
 
-- name: Make sure python-qt4 is present
-  yum: 
-    name: python-qt4
-    state: present
+- name: "Ensure software folder exists"
+  file: path={{ ansible_env.PWD }}/software state=directory mode=0777
 
-- name: Make sure burrito is present
-  pip:
-    name: burrito
-    state: present
+- name: "Download rdp classifier"
+  get_url:
+    url: https://downloads.sourceforge.net/project/rdp-classifier/rdp-classifier/rdp_classifier_2.2.zip
+    dest: "{{ ansible_env.PWD }}/software/rdp_classifier_2.2.zip"
 
-- name: Remove existing environment  
-  command: "{{ ansible_env.PWD }}/{{ miniconda_home }}/conda remove --name qiime1 --all"
-  ignore_errors: yes
+- name: "Decompress rdp classifier"
+  unarchive:
+    src: "{{ ansible_env.PWD }}/software/rdp_classifier_2.2.zip"
+    dest: "{{ ansible_env.PWD }}/software/"
+    remote_src: True
 
-- name: Create QIIME environment and install QIIME
-  command: "{{ ansible_env.PWD }}/{{ miniconda_home }}/conda create -n qiime1 python=2.7 qiime matplotlib=1.4.3 mock nose -c bioconda "
+- name: "Add rdp classifier to .bashrc"
+  shell: echo export RDP_JAR_PATH={{ ansible_env.PWD }}/software/rdp_classifier_2.2/rdp_classifier-2.2.jar >> {{ ansible_env.PWD }}/.bashrc
 
-- name: Activate QIIME environment
-  shell: "source {{ ansible_env.PWD }}/{{ miniconda_home }}/activate qiime1"
+- name: "Download cdbfasta"
+  get_url:
+    url: ftp://occams.dfci.harvard.edu/pub/bio/tgi/software/cdbfasta/cdbfasta.tar.gz
+    dest: "{{ ansible_env.PWD }}/software/cdbfasta.tar.gz"
 
-- name: Test QIIME installation
-  shell: "{{ ansible_env.PWD }}/{{ env_home }}/qiime1/bin/print_qiime_config.py -t"
+- name: "Unarchive Download"
+  unarchive:
+    src: "{{ ansible_env.PWD }}/software/cdbfasta.tar.gz"
+    dest: "{{ ansible_env.PWD }}/software"
+    remote_src: True
 
-#- name: Exit virtual environment
-#  shell: "source {{ ansible_env.PWD }}/{{ miniconda_home }}/deactivate"
+- name: "Execute Makefile"
+  command: make -C {{ ansible_env.PWD }}/software/cdbfasta
+
+- name: "Add cdbfasta to .bashrc"
+  shell: echo export PATH={{ ansible_env.PWD }}/software/cdbfasta:$PATH >> {{ ansible_env.PWD }}/.bashrc
+
+- name: "Download Cytoscape startup script"
+  get_url:
+    url: http://chianti.ucsd.edu/cytoscape-3.5.1/Cytoscape_3_5_1_unix.sh
+    dest: "{{ ansible_env.PWD }}/software/Cytoscape_3_5_1_unix.sh"
+
+- name: "Execute Cytoscape setup script without GUI"
+  command: sh {{ ansible_env.PWD }}/software/Cytoscape_3_5_1_unix.sh -q
+
+- name: Download sourcetracker
+  get_url:
+    url: https://downloads.sourceforge.net/project/sourcetracker/sourcetracker-0.9.8.tar.gz
+    dest: "{{ ansible_env.PWD }}/software/sourcetracker-0.9.8.tar.gz"
+
+- name: Decompress download
+  unarchive:
+    src: "{{ ansible_env.PWD }}/software/sourcetracker-0.9.8.tar.gz"
+    dest: "{{ ansible_env.PWD }}/software/"
+    remote_src: True
+
+- name: Add sourcetracker to .bashrc
+  shell: echo export SOURCETRACKER_PATH={{ ansible_env.PWD }}/software/sourcetracker-0.9.8/src >> {{ ansible_env.PWD }}/.bashrc
+
+- include: redhat-main.yml
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
+
+- include: debian-main.yml
+  when: ansible_os_family == "Debian"

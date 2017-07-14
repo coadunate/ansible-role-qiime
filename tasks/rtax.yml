@@ -1,0 +1,16 @@
+---
+# tasks file for ansible-role-rtax
+
+- name: "Download rtax"
+  get_url:
+    url: http://static.davidsoergel.com/rtax-0.984.tgz
+    dest: "{{ ansible_env.PWD }}/software/rtax-0.984.tgz"
+
+- name: "Unarchive Download"
+  unarchive:
+    src: "{{ ansible_env.PWD }}/software/rtax-0.984.tgz"
+    dest: "{{ ansible_env.PWD }}/software"
+    remote_src: True
+
+- name: Add rtax to .bashrc
+  shell: echo export PATH={{ ansible_env.PWD }}/software/rtax-0.984:$PATH >> {{ ansible_env.PWD }}/.bashrc

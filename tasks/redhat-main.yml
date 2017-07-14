@@ -1,0 +1,45 @@
+---
+
+- name: Ensure numpy is present
+  pip: name=numpy state=present
+
+- name: "Base Install QIIME"
+  pip:
+    name: qiime
+
+- name: Install HDF5
+  yum:
+    name: hdf5-devel
+  become: true
+  become_user: root
+
+- name: Install h5py
+  pip:
+    name: h5py
+    state: present
+
+- name: Download and install R
+  yum: name=R state=present
+  become: true
+  become_user: root
+
+- name: Copy script to target machines
+  copy: src="{{ role_path }}/files/install-packages.R" dest="{{ ansible_env.PWD }}"
+
+- name: Execute script to install R packages for QIIME
+  command: Rscript install-packages.R
+
+- include: GNUScienceLib.yml
+- include: ampliconnoise.yml
+- include: blast2.yml
+- include: cd-hit.yml
+- include: chimera-slayer.yml
+- include: clearcut.yml
+- include: ea-utils.yml
+- include: infernal.yml
+- include: mothur.yml
+- include: muscle.yml
+- include: raxml.yml
+- include: rtax.yml
+- include: sortmerna.yml
+- include: sumaclust.yml

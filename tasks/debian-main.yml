@@ -1,0 +1,77 @@
+---
+
+- name: Install QIIME base 
+  apt:
+    name: qiime
+    update_cache: yes
+  become: true
+  become_user: root
+
+- name: Install QIIME dependencies in APT repo
+  apt: name={{ item }} force=yes update_cache=yes state=present
+  with_items:
+    - blast2
+    - cd-hit
+    - chimeraslayer
+    - mothur
+    - clearcut
+    - raxml
+    - infernal
+    - muscle
+    - rtax
+    - sumaclust
+    - sortmerna
+    - ampliconnoise
+    - ghc
+    - ipython
+    - r-base
+    - r-cran-xml
+    - ea-utils
+    - seqprep
+    - hdf5-tools
+    - libssl-dev
+    - libfreetype6-dev
+    - libxslt1.1
+    - libxslt1-dev
+    - zlib1g-dev
+    - zlib1g
+    - libncurses5-dev
+    - libpng12-dev
+    - libreadline-dev
+    - libbz2-dev
+    - fasttree
+    - python-matplotlib
+    - gfortran
+  become: true
+  become_user: root
+
+- name: Install h5py dependencies
+  apt: name={{ item }}
+  with_items:
+    - cython
+    - libhdf5-dev
+  become: true
+  become_user: root
+
+- name: Install h5py
+  pip: name=h5py
+  become: true
+  become_user: root
+
+#adapted from https://github.com/nuada/ansible-qiime/blob/master/tasks/main.yml
+- name: Install R dependecies from CRAN
+  command: /usr/bin/Rscript -e "if (! ('{{ item }}' %in% installed.packages()[,'Package'])) install.packages('{{ item }}', repo=c('{{ cran_mirror }}'))"
+  with_items:
+    - ape
+    - biom
+    - optparse
+    - randomForest
+    - RColorBrewer
+    - vegan
+
+#adapted from https://github.com/nuada/ansible-qiime/blob/master/tasks/main.yml
+- name: Install R dependecies from BioConductor
+  command: /usr/bin/Rscript -e "source('http://bioconductor.org/biocLite.R'); biocLite('{{ item }}')"
+  with_items:
+    - DESeq2
+    - metagenomeSeq

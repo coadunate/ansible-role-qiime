@@ -1,0 +1,26 @@
+---
+# tasks file for ansible-role-GNUScienceLib
+
+- name: Download GNU Science Library
+  get_url:
+    url: ftp://ftp.gnu.org/gnu/gsl/gsl-1.9.tar.gz
+    dest: "{{ ansible_env.PWD }}/software/gsl-1.9.tar.gz"
+
+- name: "Unarchive Download"
+  unarchive:
+    src: "{{ ansible_env.PWD }}/software/gsl-1.9.tar.gz"
+    dest: "{{ ansible_env.PWD }}/software"
+    remote_src: True
+
+- name: "Execute Configuration Script"
+  command: ./configure
+  args:
+    chdir: "{{ ansible_env.PWD }}/software/gsl-1.9"
+
+- name: "Execute Makefile"
+  command: make -C {{ ansible_env.PWD }}/software/gsl-1.9
+
+- name: "Install Library" 
+  command: make install -C {{ ansible_env.PWD }}/software/gsl-1.9
+  become: true
+  become_user: root

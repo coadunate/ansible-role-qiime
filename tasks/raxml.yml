@@ -1,0 +1,19 @@
+---
+# tasks file for ansible-role-raxml
+
+- name: "Download RAxML-7.3.0"
+  get_url:
+    url: http://sco.h-its.org/exelixis/resource/download/software/RAxML-7.3.0.tar.bz2
+    dest: "{{ ansible_env.PWD }}/software/RAxML-7.3.0.tar.bz2"
+
+- name: "Unarchive Download"
+  unarchive:
+    src: "{{ ansible_env.PWD }}/software/RAxML-7.3.0.tar.bz2"
+    dest: "{{ ansible_env.PWD }}/software"
+    remote_src: True
+
+- name: "Execute Makefile"
+  command: make -C {{ ansible_env.PWD }}/software/RAxML-7.3.0 -f Makefile.gcc
+
+- name: Add RAxML to .bashrc. raxmlHPC to execute.
+  shell: echo export PATH={{ ansible_env.PWD }}/software/RAxML-7.3.0:$PATH >> {{ ansible_env.PWD }}/.bashrc

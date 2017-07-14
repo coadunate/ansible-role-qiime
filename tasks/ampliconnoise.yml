@@ -1,0 +1,17 @@
+---
+# tasks file for ansible-role-ampliconnoise
+
+- name: "Clone ampliconnoise repo"
+  git: 
+    repo: 'https://github.com/fhcrc/ampliconnoise.git'
+    dest: "{{ ansible_env.PWD }}/software/ampliconnoise"
+
+- name: "Execute setup script"
+  command: python {{ ansible_env.PWD }}/software/ampliconnoise/setup.py install
+  become: true
+  become_user: root
+
+- name: "Set env variables"
+  shell: echo export PATH={{ ansible_env.PWD }}/software/ampliconnoise/ampliconnoise/Scripts:{{ ansible_env.PWD }}/software/ampliconnoise/ampliconnoise/bin:$PATH >> {{ ansible_env.PWD }}/.bashrc
+  shell: echo export PYRO_LOOKUP_FILE={{ ansible_env.PWD }}/software/ampliconnoise/ampliconnoise/Data/LookUp_E123.dat >> {{ ansible_env.PWD }}/.bashrc
+  shell: echo export SEQ_LOOKUP_FILE={{ ansible_env.PWD }}/software/ampliconnoise/ampliconnoise/Data/Tran.dat >> {{ ansible_env.PWD }}/.bashrc

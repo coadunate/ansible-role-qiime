@@ -1,0 +1,23 @@
+---
+
+- name: Download sortmerna
+  get_url:
+    url: https://github.com/biocore/sortmerna/archive/2.0.tar.gz
+    dest: "{{ ansible_env.PWD }}/software/2.0.tar.gz"
+
+- name: Unarchive download
+  unarchive:
+    src: "{{ ansible_env.PWD }}/software/2.0.tar.gz"
+    dest: "{{ ansible_env.PWD }}/software"
+    remote_src: True
+
+- name: "Execute build script"
+  command: ./configure
+  args:
+    chdir: "{{ ansible_env.PWD }}/software/sortmerna-2.0"
+
+- name: Execute Makefile
+  command: make -C {{ ansible_env.PWD }}/software/sortmerna-2.0
+
+- name: Add sortmerna to .bashrc
+  shell: echo export PATH={{ ansible_env.PWD }}/software/sortmerna-2.0:$PATH >> {{ ansible_env.PWD }}/.bashrc
