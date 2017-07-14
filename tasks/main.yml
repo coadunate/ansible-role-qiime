@@ -9,20 +9,15 @@
     dest: "{{ ansible_env.PWD }}/software/bin"
     remote_src: True
 
-# - name: "Download cdbfasta"
-#   get_url:
-#     url: ftp://occams.dfci.harvard.edu/pub/bio/tgi/software/cdbfasta/cdbfasta.tar.gz
-#     dest: "{{ ansible_env.PWD }}/software/cdbfasta.tar.gz"
-#
-# - name: "Unarchive Download"
-#   unarchive:
-#     src: "{{ ansible_env.PWD }}/software/cdbfasta.tar.gz"
-#     dest: "{{ ansible_env.PWD }}/software"
-#     remote_src: True
-#
-# - name: "Execute Makefile"
-#   command: make -C {{ ansible_env.PWD }}/software/cdbfasta
-#
+- name: "Downlaod and unarchive cdbfasta"
+  unarchive:
+    src: ftp://occams.dfci.harvard.edu/pub/bio/tgi/software/cdbfasta/cdbfasta.tar.gz
+    dest: "{{ ansible_env.PWD }}/software/bin"
+    remote_src: True
+
+- name: "Execute Makefile"
+  command: make -C {{ ansible_env.PWD }}/software/bin/cdbfasta
+
 # - name: "Add cdbfasta to .bashrc"
 #   shell: echo export PATH={{ ansible_env.PWD }}/software/cdbfasta:$PATH >> {{ ansible_env.PWD }}/.bashrc
 #
