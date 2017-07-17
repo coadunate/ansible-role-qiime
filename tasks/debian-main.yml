@@ -60,7 +60,7 @@
 
 #adapted from https://github.com/nuada/ansible-qiime/blob/master/tasks/main.yml
 - name: Install R dependecies from CRAN
-  command: /usr/bin/Rscript -e "if (! ('{{ item }}' %in% installed.packages()[,'Package'])) install.packages('{{ item }}', repo=c('{{ cran_mirror }}'))"
+  command: /usr/bin/Rscript -e "if (! ('{{ item }}' %in% installed.packages()[,'Package'])) install.packages('{{ item }}', repo=c('http://cran.r-project.org'))"
   with_items:
     - ape
     - biom
