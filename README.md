@@ -5,16 +5,15 @@ Ansible Role for Installing and Configuring QIIME environment.
 
 Dependencies
 ------------
-coadunate.devtools
-coadunate.python
-coadunate.miniconda
+
+- [coadunate.devtools](https://galaxy.ansible.com/coadunate/devtools)
 
 Example Playbook
 ----------------
 
     - hosts: servers
       roles:
-         - { role: username.qiime }
+         - { role: coadunate.qiime }
 
 License
 -------
