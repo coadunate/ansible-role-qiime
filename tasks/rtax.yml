@@ -10,8 +10,7 @@
   unarchive:
     src: "{{ ansible_env.PWD }}/software/rtax-0.984.tgz"
     dest: "{{ ansible_env.PWD }}/software"
-    remote_src: True
-    copy: no
+    remote_src: yes
 
 - name: Add rtax to .bashrc
   shell: echo export PATH={{ ansible_env.PWD }}/software/rtax-0.984:$PATH >> {{ ansible_env.PWD }}/.bashrc

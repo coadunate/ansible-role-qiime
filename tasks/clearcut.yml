@@ -10,8 +10,7 @@
   unarchive:
     src: "{{ ansible_env.PWD }}/software/Clearcut.source.zip"
     dest: "{{ ansible_env.PWD }}/software"
-    remote_src: True
-    copy: no
+    remote_src: yes
 
 - name: "Execute Makefile"
   command: make -C {{ ansible_env.PWD }}/software/clearcut

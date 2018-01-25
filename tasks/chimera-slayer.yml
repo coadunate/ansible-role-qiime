@@ -10,8 +10,7 @@
   unarchive:
     src: "{{ ansible_env.PWD }}/software/microbiomeutil-r20110519.tgz"
     dest: "{{ ansible_env.PWD }}/software/"
-    remote_src: True
-    copy: no
+    remote_src: yes
 
 - name: "Add Chimera Slayer to .bashrc"
   shell: echo export PATH={{ ansible_env.PWD }}/software/microbiomeutil-r20110519/ChimeraSlayer:$PATH >> {{ ansible_env.PWD }}/.bashrc

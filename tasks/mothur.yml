@@ -15,8 +15,7 @@
   unarchive:
       src: "{{ ansible_env.PWD }}/software/mothur.tar.gz"
       dest: "{{ ansible_env.PWD }}/software/"
-      remote_src: True
-      copy: no
+      remote_src: yes
 
 - name: Download boost library
   yum: name=boost-devel state=present

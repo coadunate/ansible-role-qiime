@@ -10,8 +10,7 @@
   unarchive:
     src: "{{ ansible_env.PWD }}/software/suma_package_V_1.0.00.tar.gz"
     dest: "{{ ansible_env.PWD }}/software"
-    remote_src: True
-    copy: no
+    remote_src: yes
 
 - name: Execute sumaclust Makefile
   command: make -C {{ ansible_env.PWD }}/software/suma_package_V_1.0.00/sumaclust
