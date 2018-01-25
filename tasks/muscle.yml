@@ -11,6 +11,7 @@
     src: "{{ ansible_env.PWD }}/software/muscle3.8.31_i86linux64.tar.gz"
     dest: "{{ ansible_env.PWD }}/software/"
     remote_src: True
+    copy: no
 
 - name: "Add Muscle to .bashrc"
   shell: echo export PATH={{ ansible_env.PWD }}/software:$PATH >> {{ ansible_env.PWD }}/.bashrc

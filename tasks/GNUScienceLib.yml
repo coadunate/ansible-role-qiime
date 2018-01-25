@@ -11,6 +11,7 @@
     src: "{{ ansible_env.PWD }}/software/gsl-1.9.tar.gz"
     dest: "{{ ansible_env.PWD }}/software"
     remote_src: True
+    copy: no
 
 - name: "Execute Configuration Script"
   command: ./configure

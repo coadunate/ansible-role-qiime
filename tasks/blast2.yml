@@ -10,6 +10,7 @@
     src:  "{{ ansible_env.PWD }}/software/blast-2.2.22-x64-linux.tar.gz"
     dest: "{{ ansible_env.PWD }}/software/"
     remote_src: True
+    copy: no
 
 - name: "Add Legacy BLAST to .bashrc"
   shell: echo export PATH={{ ansible_env.PWD }}/software/blast-2.2.22/bin:$PATH >> {{ ansible_env.PWD }}/.bashrc

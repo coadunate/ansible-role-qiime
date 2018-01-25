@@ -10,6 +10,7 @@
     src: "{{ ansible_env.PWD }}/software/infernal-1.1.2-linux-intel-gcc.tar.gz"
     dest: "{{ ansible_env.PWD }}/software"
     remote_src: True
+    copy: no
 
 - name: "Configure Infernal"
   command:  ./configure

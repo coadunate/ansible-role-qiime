@@ -11,6 +11,7 @@
     src: "{{ ansible_env.PWD }}/software/cd-hit-2007-0131.tar.gz"
     dest: "{{ ansible_env.PWD }}/software/"
     remote_src: True
+    copy: no
 
 - name: "Execute Makefile"
   command: make -C {{ ansible_env.PWD }}/software/cd-hit
